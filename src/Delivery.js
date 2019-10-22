@@ -5,6 +5,7 @@ import NumericInput from 'react-numeric-input';
 import entity from './entities';
 import mishloach from './teudaMish1.png';
 import globals from './global';
+import waiting from './wait.gif';
 // import mishloach2 from '../public/teudaMish1.png';
 
 class Delivery extends React.Component  {
@@ -31,7 +32,8 @@ class Delivery extends React.Component  {
                 }
             },
             deliveries:[],
-            action:''            
+            action:'' ,
+            waiting:false           
         };
     }
     imgChange(ev) {
@@ -62,7 +64,7 @@ debugger
             console.log(results);
             const deliveries = results.map(result => new entity.DeliveryModel(result));
             
-            this.setState({deliveries});
+            this.setState({deliveries,waiting:false,imgChanged:false});
 
         }, (error) => {
             
@@ -115,12 +117,13 @@ debugger
         });;
     }
     delDelivery(e) {
+        this.setState({waiting:true})
         const RecipeTable = Parse.Object.extend('delivery');
         const query = new Parse.Query(RecipeTable);
         let id=e.currentTarget.getAttribute("data-id");
         query.equalTo("objectId", id);
 
-        alert(id);
+        
         query.first(id)
         .then(eventToDelete => {
           if(eventToDelete !== undefined) {
@@ -265,7 +268,13 @@ debugger
         // window.open({mishloach}, '_blank');
         
     }
-    render(){        
+    render(){ 
+        var jsxSpinner
+        if (this.state.waiting==true){
+            jsxSpinner=<div className="mx-auto d-block" style={{width:'30px',height:'30px'}} id="loading">
+                        <p><img style={{width:'50px',height:'50px'}}  src={waiting} />אנא המתן</p>
+                    </div>     
+        }  
         var disableFlag=globals.currentUser["isAdmin"]==1?'' : 'disabled';
         disableFlag='';//zmani!!!!!!
         var tblHeader=<thead>
@@ -309,7 +318,7 @@ debugger
         return (
             <div>
                 <h2 className="m-5">הזמנות - רכש</h2>                
-
+                {jsxSpinner}
                 <Button variant="secondary fa fa-plus " sm={2} action_='add' onClick={this.openModal}></Button>
                 <div responsive>
                 <Table id="tblDelivery" className="m-5" striped bordered hover  >
