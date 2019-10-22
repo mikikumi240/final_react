@@ -1,0 +1,15 @@
+body,html{
+  direction: rtl;
+  text-align: right;
+  
+  
+}
+.app_advantage{
+  background-color: rgb(245,197,136);
+}
+.hide{
+  display:none;
+}
+.display{
+  display:inline;
+}

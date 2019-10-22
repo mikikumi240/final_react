@@ -1,0 +1,9 @@
+responsive tables with BT
+https://mdbootstrap.com/docs/jquery/tables/responsive/
+********************
+attach event to jsx's element base on condition
+
+onKeyDown={(e)=>{if (e.keyCode==13){this.addType}}}
+onKeyDown={function(e){if(e.keyCode==13){this.addType}}}
+*********************
+

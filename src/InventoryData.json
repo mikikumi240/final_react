@@ -1,0 +1,12 @@
+[
+{"InvID":1,"TypeCode":1,"SubTypeCode":1,"Makat":100},
+{"InvID":2,"TypeCode":1,"SubTypeCode":2,"Makat":101},
+{"InvID":3,"TypeCode":1,"SubTypeCode":3,"Makat":102},
+{"InvID":4,"TypeCode":2,"SubTypeCode":4,"Makat":103},
+{"InvID":5,"TypeCode":2,"SubTypeCode":5,"Makat":104},
+{"InvID":6,"TypeCode":2,"SubTypeCode":6,"Makat":105},
+{"InvID":7,"TypeCode":3,"SubTypeCode":7,"Makat":106},
+{"InvID":8,"TypeCode":3,"SubTypeCode":8,"Makat":107},
+{"InvID":9,"TypeCode":3,"SubTypeCode":9,"Makat":108}
+]
+
