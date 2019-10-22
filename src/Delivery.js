@@ -21,6 +21,7 @@ class Delivery extends React.Component  {
         this.updateDelivery=this.updateDelivery.bind(this);
         this.state={
             showModal: false,
+            imgChanged:false,
             currDelivery:
             {   schum:0,content_descr:'',suppliedAt:'',
                 id:0,identity_no:'',
@@ -42,9 +43,13 @@ debugger
         } else {
             newDeliveryImg.URL = "";
         }
+
         let tmpDelivery=this.state.currDelivery;
         tmpDelivery.newDeliveryImg=newDeliveryImg;
-        this.setState({ currDelivery:tmpDelivery });
+        this.setState({ currDelivery:tmpDelivery,imgChanged:true });
+        console.log("imgChnaged");
+        console.log(newDeliveryImg.URL);
+        
     }
 	
     readDeliveries(){
@@ -130,6 +135,7 @@ debugger
         });
       }
     componentDidMount(){
+        this.setState({imgChanged:false});
         this.readDeliveries();
         
     }
@@ -149,21 +155,22 @@ debugger
                 currDelivery.suppliedAt=new Date(arrFind[0]["suppliedAt"]);
                 currDelivery.id=arrFind[0]["id"];
                 debugger
-                currDelivery.newDeliveryImg.file=null;
-                currDelivery.newDeliveryImg.file=arrFind[0]["physicFile"];
-                
+                // currDelivery.newDeliveryImg.file=null;
                 currDelivery.newDeliveryImg.URL=arrFind[0]["img"]
-                ////
-                let tmpDeliveryImg = {};
-                tmpDeliveryImg.file = arrFind[0]["physicFile"];
-                if (tmpDeliveryImg.file) {
-                    tmpDeliveryImg.URL = URL.createObjectURL(tmpDeliveryImg.file);
-                } else {
-                    tmpDeliveryImg.URL = "";
-                }
-                currDelivery.newDeliveryImg=tmpDeliveryImg;
+                currDelivery.newDeliveryImg.file=arrFind[0]["physicFile"];
+                console.log("eee");
+                console.log(currDelivery.newDeliveryImg.URL);
                 
-                                           
+                // currDelivery.newDeliveryImg.URL=arrFind[0]["img"]
+                ////
+                // let tmpDeliveryImg = {};
+                // tmpDeliveryImg.file = arrFind[0]["physicFile"];
+                // if (tmpDeliveryImg.file) {
+                    // tmpDeliveryImg.URL = URL.createObjectURL(tmpDeliveryImg.file);
+                // } else {
+                    // tmpDeliveryImg.URL = "";
+                // }
+                // currDelivery.newDeliveryImg=tmpDeliveryImg;                                                         
                 
             }
         }
@@ -184,9 +191,12 @@ debugger
             eventToUpdate.set('content_descr', this.state.currDelivery.content_descr);
             eventToUpdate.set('identity_no', this.state.currDelivery.identity_no);
             eventToUpdate.set('schum', parseInt(this.state.currDelivery.schum));
-            eventToUpdate.set('suppliedAt', new Date(this.state.currDelivery.suppliedAt));            
-            eventToUpdate.set('image', new Parse.File(this.state.currDelivery.newDeliveryImg.file.name, this.state.currDelivery.newDeliveryImg.file));
-
+            eventToUpdate.set('suppliedAt', new Date(this.state.currDelivery.suppliedAt));    
+            console.log("yup");
+            console.log( this.state.currDelivery.newDeliveryImg.file)
+            console.log(this.state.currDelivery.newDeliveryImg.file.name)
+            if(this.state.imgChanged==true)    eventToUpdate.set('image', new Parse.File(this.state.currDelivery.newDeliveryImg.file.name, this.state.currDelivery.newDeliveryImg.file));
+            
             eventToUpdate.save().then((response) => {                            
               console.log('Updated ', response);
               this.readDeliveries();

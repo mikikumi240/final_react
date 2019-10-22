@@ -102,6 +102,9 @@ updateTypeClicked(e){
       }
       //ItemsAvailable=items the emp can take
       var ItemsAvailable= globals.arrTypes.filter(obj => allCurrentUsed.every(s => s.TypeCode != obj.code));
+      //2210
+      // var MakatsAvailable= globals.arrInventory.filter(obj => allCurrentUsed.every(s => s.TypeCode != obj.code));
+      //end 2210
       let ItemTypeDef=this.state.CurrentInvItem["TypeCode"];
       if(ItemsAvailable.length>0 && ItemTypeDef==0)ItemTypeDef=ItemsAvailable[0]["code"];
       var tmpSubTypes=globals.arrSubTypes.filter(i=>i.type_code==ItemTypeDef);
