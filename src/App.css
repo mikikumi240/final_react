@@ -13,3 +13,10 @@ body,html{
 .display{
   display:inline;
 }
+
+#tblDelivery{
+  overflow: auto;
+  display: block;
+  table-layout: auto;
+  width: "w-100";
+}

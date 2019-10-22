@@ -50,7 +50,8 @@ class DeliveryModel {
         this.createdAt = new Date (parseDelivery.get("createdAt")).toISOString().slice(0,10);
         this.suppliedAt = new Date (parseDelivery.get("suppliedAt")).toISOString().slice(0,10);        
         this.identity_no = parseDelivery.get("identity_no");//mispar hazmana
-        this.img = parseDelivery.get("image")._url;        
+        this.img = parseDelivery.get("image")._url;  
+        this.physicFile=   parseDelivery.get("image");    
 
     }
 }

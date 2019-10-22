@@ -263,10 +263,13 @@ render(){
   var jsxDevices;
   var jsxSubType;
   var jsxAlert;  
-
+  
   jsxDevices=this.state.DevicesToSelect.map(x=><option value={x.code}>{x.short}</option>);        
   jsxSubType=this.state.SubDevicesToSelect.map(x=><option value={x.subType_code}>{x.descr}</option>);
-    
+  // 22/10
+  // var jsxMakats;
+  // var Makats=globals.arrInventory.filter(o=>o.SubTypeCode==this.state.CurrentInvItem["SubTypeCode"]);
+  //22/10
   if (this.state.Alert!=''){
     jsxAlert=<Alert variant="danger" dismissible onClose={this.hideAlert}>
     {this.state.Alert}
@@ -313,7 +316,14 @@ var blnShow=(this.state.TTT!=''?true:false);
               <Form.Control type="text" placeholder='הזן מק"ט' 
               onChange={this.makatChanged} value={this.state.CurrentInvItem["Makat"]}></Form.Control>
             </Form.Group>
-
+            {/* //2210 */}
+            {/* <Form.Group as={Col} controlId="formMakat2">
+              
+              <Form.Control as="select" onChange={this.makatChanged}>
+                {jsxMakats}
+              </Form.Control>
+            </Form.Group> */}
+            {/* end 22/10 */}
             
           </Form.Row>      
           <Form.Row>

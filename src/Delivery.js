@@ -48,11 +48,13 @@ debugger
     }
 	
     readDeliveries(){
+        debugger
         const DeliveryTable = Parse.Object.extend('delivery');        
         const query = new Parse.Query(DeliveryTable);
         
         query.find().then((results) => {                
-            
+            console.log("see results below:");
+            console.log(results);
             const deliveries = results.map(result => new entity.DeliveryModel(result));
             
             this.setState({deliveries});
@@ -146,14 +148,22 @@ debugger
                 currDelivery.content_descr=arrFind[0]["content_descr"];
                 currDelivery.suppliedAt=new Date(arrFind[0]["suppliedAt"]);
                 currDelivery.id=arrFind[0]["id"];
+                debugger
                 currDelivery.newDeliveryImg.file=null;
-                currDelivery.newDeliveryImg.URL=arrFind[0]["img"]
-                //
+                currDelivery.newDeliveryImg.file=arrFind[0]["physicFile"];
                 
-                // Object.defineProperty(currDelivery, "newDeliveryImg", 
-                // {file : null,URL : arrFind[0]["img"]});
-
-                //
+                currDelivery.newDeliveryImg.URL=arrFind[0]["img"]
+                ////
+                let tmpDeliveryImg = {};
+                tmpDeliveryImg.file = arrFind[0]["physicFile"];
+                if (tmpDeliveryImg.file) {
+                    tmpDeliveryImg.URL = URL.createObjectURL(tmpDeliveryImg.file);
+                } else {
+                    tmpDeliveryImg.URL = "";
+                }
+                currDelivery.newDeliveryImg=tmpDeliveryImg;
+                
+                                           
                 
             }
         }
@@ -247,6 +257,7 @@ debugger
     }
     render(){        
         var disableFlag=globals.currentUser["isAdmin"]==1?'' : 'disabled';
+        disableFlag='';//zmani!!!!!!
         var tblHeader=<thead>
             <th>מספר הזמנה</th>
             <th>תאריך הזמנה</th>
@@ -290,12 +301,14 @@ debugger
                 <h2 className="m-5">הזמנות - רכש</h2>                
 
                 <Button variant="secondary fa fa-plus " sm={2} action_='add' onClick={this.openModal}></Button>
-                <Table className="m-5" striped bordered hover responsive>
+                <div responsive>
+                <Table id="tblDelivery" className="m-5" striped bordered hover  >
                     {tblHeader}                
                     <tbody>
                     {jsxDeliveries}
                     </tbody>
                 </Table>
+                </div>
                 {/* המסך המודלי */}
                 <Modal show={this.state.showModal} onHide={this.closeModal} size="lg">
                     <Modal.Header closeButton>
