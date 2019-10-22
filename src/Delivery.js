@@ -37,7 +37,7 @@ class Delivery extends React.Component  {
         };
     }
     imgChange(ev) {
-debugger
+
         let newDeliveryImg = {};
         newDeliveryImg.file = ev.target.files[0];
         if (newDeliveryImg.file) {
