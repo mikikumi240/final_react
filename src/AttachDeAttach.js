@@ -35,14 +35,15 @@ constructor(props){
   this.state={TTT:'',CurrentEmployee:new entity.EmployeeModel(0,'','',0),
   Lents:[],updateType:'',CurrentLent:new entity.LentModel(0,0,'','',0,''),
   CurrentInvItem:new entity.InventoryModel(0,0,0,''),Alert:'',
-  DevicesToSelect:[],SubDevicesToSelect:[],reset:false};
+  DevicesToSelect:[],SubDevicesToSelect:[],reset:false,
+  MakatsToSelect:[],currentInUse:[]};
   if (!globals.dbLoaded){
     functions.loadDb();
     globals.dbLoaded=true;
     } 
 }
  componentDidUpdate() {
-   debugger
+   
    let g=10;
     // if (this.state.reset) {
     //     this.setState({reset: false})
@@ -53,11 +54,12 @@ cleanScr(e){
   this.setState({CurrentEmployee:new entity.EmployeeModel(0,'','',0),
   Lents:[],updateType:'',CurrentLent:new entity.LentModel(0,0,'','',0,''),
   CurrentInvItem:new entity.InventoryModel(0,0,0,''),Alert:'',
-  DevicesToSelect:[],SubDevicesToSelect:[],reset:true});
+  DevicesToSelect:[],SubDevicesToSelect:[],reset:true,MakatsToSelect:[],
+  currentInUse:[]});
 }
 onLentSelected(lentIdSelected){
   
-  debugger
+  
   
   let tmpLent=this.state.Lents.filter(x=>x.LentId==lentIdSelected);
   let tmpInv=globals.arrInventory.filter(x=>x.InvID==tmpLent[0].InvId);
@@ -66,14 +68,15 @@ onLentSelected(lentIdSelected){
  
   let ItemsAvailable=globals.arrTypes.filter(x=>x.code==tmpInv[0]["TypeCode"]);
   let tmpSubTypes=globals.arrSubTypes.filter(x=>x.subType_code==tmpInv[0]["SubTypeCode"]);
+  let tmpMakats=tmpInv;//2210
   this.setState({CurrentLent:copied_lent,CurrentInvItem:tmpInv[0],
     updateType:'deAttach',DevicesToSelect:ItemsAvailable,
-    SubDevicesToSelect: tmpSubTypes});           
+    SubDevicesToSelect: tmpSubTypes,MakatsToSelect:tmpMakats});           
 
 }
 
 empSelected(objEmpSel){
-  debugger
+  
   //=new EmployeeModel(0,'','',0)
   var Lents=globals.arrLents.filter(x=>x.EmpNum===objEmpSel.EmpNum);
   
@@ -83,13 +86,15 @@ empSelected(objEmpSel){
   
 }
 updateTypeClicked(e){
-  debugger
-  let Type=0;
-  let SubType=0;  
   
+  let Type=0;
+  let SubType=0;
+  let Makat='';
+  var allCurrentUsed = [];
+  var arrFreeMakats=[];
   if(e.target.value=='attach'){
   
-    var allCurrentUsed = [];      
+          
       for(let i=0; i<this.state.Lents.length; i++) {
         if (this.state.Lents[i]["ReturnedDate"]==='')
         {
@@ -102,9 +107,7 @@ updateTypeClicked(e){
       }
       //ItemsAvailable=items the emp can take
       var ItemsAvailable= globals.arrTypes.filter(obj => allCurrentUsed.every(s => s.TypeCode != obj.code));
-      //2210
-      // var MakatsAvailable= globals.arrInventory.filter(obj => allCurrentUsed.every(s => s.TypeCode != obj.code));
-      //end 2210
+      
       let ItemTypeDef=this.state.CurrentInvItem["TypeCode"];
       if(ItemsAvailable.length>0 && ItemTypeDef==0)ItemTypeDef=ItemsAvailable[0]["code"];
       var tmpSubTypes=globals.arrSubTypes.filter(i=>i.type_code==ItemTypeDef);
@@ -115,10 +118,14 @@ updateTypeClicked(e){
       if(ItemsAvailable.length>0){
         Type=ItemsAvailable[0]["code"];
         SubType=tmpSubTypes[0]["subType_code"];
+        let arrMktOfProducer=globals.arrInventory.filter(i=>i.SubTypeCode==SubType);
+        arrFreeMakats= arrMktOfProducer.filter(obj => allCurrentUsed.every(s => s.Makat != obj.Makat));
+        Makat=arrFreeMakats[0]["Makat"];
       } 
-      this.setState({updateType:e.target.value,
+      this.setState({updateType:e.target.value,MakatsToSelect:arrFreeMakats,
+        currentInUse:allCurrentUsed,
         CurrentLent:new entity.LentModel(0,0,'','',0,''),
-        CurrentInvItem:new entity.InventoryModel(0,Type,SubType,''),
+        CurrentInvItem:new entity.InventoryModel(0,Type,SubType,Makat),
         DevicesToSelect:ItemsAvailable,SubDevicesToSelect: tmpSubTypes });//attach/deAttach 
 
     }
@@ -142,7 +149,7 @@ updateTypeClicked(e){
 //makat and sub type can be changed only on attach ,otherwise they are locked+pasted on screen
 //consider to copy objects with:let newInvItem = new Object(this.state.CurrentInvItem)
 makatChanged(e){
-  debugger
+  
   let newInvItem=new entity.InventoryModel(this.state.CurrentInvItem["InvID"],
   this.state.CurrentInvItem["TypeCode"],
   this.state.CurrentInvItem["SubTypeCode"],
@@ -150,27 +157,34 @@ makatChanged(e){
   this.setState({CurrentInvItem:newInvItem});
 }
 selectedSubTypeChanged(e){
+  //2210
+  let arrMktOfProducer=globals.arrInventory.filter(i=>i.SubTypeCode==e.target.value);
+  let arrFreeMakats= arrMktOfProducer.filter(obj => this.state.currentInUse.every(s => s.Makat != obj.Makat));
+  //end 2210
   let newInvItem=new entity.InventoryModel(this.state.CurrentInvItem["InvID"],
   this.state.CurrentInvItem["TypeCode"],
-  e.target.value,
-  this.state.CurrentInvItem["Makat"]);
-  this.setState({CurrentInvItem:newInvItem});
+  e.target.value,arrFreeMakats[0]["Makat"]);
+  //before 2210 -this.state.CurrentInvItem["Makat"]);
+  this.setState({CurrentInvItem:newInvItem,MakatsToSelect:arrFreeMakats});
 
 }
 selectedTypeChanged(e){
   //synchron
-     debugger
-  let subTypeDef=globals.arrSubTypes.filter(i=>i.type_code==e.target.value)[0]["subType_code"];    
   
-  //
+  let subTypeDef=globals.arrSubTypes.filter(i=>i.type_code==e.target.value)[0]["subType_code"];    
+  //2210
+  let arrMktOfProducer=globals.arrInventory.filter(i=>i.SubTypeCode==subTypeDef);
+  let arrFreeMakats= arrMktOfProducer.filter(obj => this.state.currentInUse.every(s => s.Makat != obj.Makat));
+  //end 2210
   let newInvItem=new entity.InventoryModel(this.state.CurrentInvItem["InvID"],
   e.target.value,
-  subTypeDef,
-  this.state.CurrentInvItem["Makat"]);
+  subTypeDef,arrFreeMakats[0]["Makat"]);
+  //before 2210- this.state.CurrentInvItem["Makat"]);
 
   var tmpSubTypes=globals.arrSubTypes.filter(i=>i.type_code==e.target.value);
   
-  this.setState({CurrentInvItem:newInvItem,SubDevicesToSelect: tmpSubTypes });
+  this.setState({CurrentInvItem:newInvItem,SubDevicesToSelect: tmpSubTypes,
+    MakatsToSelect:arrFreeMakats });
 }
 returnedDateChanged(e){
   let tmpLentItem = new Object(this.state.CurrentLent);
@@ -207,7 +221,7 @@ switch (this.state.updateType){
    
     else
     {
-    
+    debugger
       let NewEmp=new Object(this.state.CurrentEmployee);
       globals.arrEmp.push(NewEmp);
       
@@ -216,7 +230,7 @@ switch (this.state.updateType){
       let newLent = new Object(this.state.CurrentLent)
       newLent["LentId"]=next_LentId;
       newLent["EmpNum"]=EmpNum;
-      debugger
+      
       let invIdSelected=globals.arrInventory.filter(x=>x.TypeCode==this.state.CurrentInvItem["TypeCode"] && x.SubTypeCode==this.state.CurrentInvItem["SubTypeCode"] && x.Makat==this.state.CurrentInvItem["Makat"]);
       if(invIdSelected.length>0){
         newLent["InvId"]=invIdSelected[0]["InvID"];
@@ -230,7 +244,7 @@ switch (this.state.updateType){
     break;
   case "deAttach":
     
-    debugger
+    
     if (this.state.CurrentEmployee["EmpNum"]==0){
       this.setState({Alert:'לא נבחר עובד'});
     }
@@ -257,7 +271,7 @@ switch (this.state.updateType){
   this.setState({updateType:'', 
   DevicesToSelect:[],SubDevicesToSelect:[],     
   CurrentLent:new entity.LentModel(0,0,'','',0,''),
-  CurrentInvItem:new entity.InventoryModel(0,0,0,'')});
+  CurrentInvItem:new entity.InventoryModel(0,0,0,''),currentInUse:[],MakatsToSelect:[]});
 }
 hideAlert(){
   this.setState({Alert:''});
@@ -270,8 +284,7 @@ render(){
   jsxDevices=this.state.DevicesToSelect.map(x=><option value={x.code}>{x.short}</option>);        
   jsxSubType=this.state.SubDevicesToSelect.map(x=><option value={x.subType_code}>{x.descr}</option>);
   // 22/10
-  // var jsxMakats;
-  // var Makats=globals.arrInventory.filter(o=>o.SubTypeCode==this.state.CurrentInvItem["SubTypeCode"]);
+  var jsxMakats=this.state.MakatsToSelect.map(x=><option value={x.Makat}>{x.Makat}</option>);           
   //22/10
   if (this.state.Alert!=''){
     jsxAlert=<Alert variant="danger" dismissible onClose={this.hideAlert}>
@@ -314,18 +327,18 @@ var blnShow=(this.state.TTT!=''?true:false);
               </Form.Control>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formMakat">
+            {/* <Form.Group as={Col} controlId="formMakat">
               <Form.Label>מק"ט</Form.Label>
               <Form.Control type="text" placeholder='הזן מק"ט' 
               onChange={this.makatChanged} value={this.state.CurrentInvItem["Makat"]}></Form.Control>
-            </Form.Group>
+            </Form.Group> */}
             {/* //2210 */}
-            {/* <Form.Group as={Col} controlId="formMakat2">
-              
-              <Form.Control as="select" onChange={this.makatChanged}>
+            <Form.Group as={Col} controlId="formMakat2">
+              <Form.Label>מס' קטלוג</Form.Label>
+              <Form.Control as="select" onChange={this.makatChanged} value={this.state.CurrentInvItem["Makat"]}>
                 {jsxMakats}
               </Form.Control>
-            </Form.Group> */}
+            </Form.Group>
             {/* end 22/10 */}
             
           </Form.Row>      

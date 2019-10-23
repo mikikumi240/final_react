@@ -184,7 +184,7 @@ class Delivery extends React.Component  {
         this.setState({ showModal: false,action:'' });
     }
     updateDelivery(e) {
-        debugger
+        this.setState({waiting:true})
         let id=this.state.currDelivery.id;
        
 
@@ -212,7 +212,7 @@ class Delivery extends React.Component  {
         this.closeModal();
       }
     createDelivery(){
-       
+        this.setState({waiting:true});
         const DeliveryRow = Parse.Object.extend('delivery');
         const newDelivery = new DeliveryRow();        
         
@@ -396,7 +396,7 @@ class Delivery extends React.Component  {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-
+                <Button variant="secondary" href="/#">יציאה </Button>
             </div>
         );
     }
