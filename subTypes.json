@@ -1,0 +1,5 @@
+[
+{"type_code":"1","subType_code":"1","descr":"Dell"},{"type_code":1,"subType_code":2,"descr":"Lenovo"},{"type_code":1,"subType_code":3,"descr":"HP"},
+{"type_code":2,"subType_code":"4","descr":"Samsung"},{"type_code":2,"subType_code":5,"descr":"iPhone"},{"type_code":2,"subType_code":6,"descr":"Xiaomi"},
+{"type_code":3,"subType_code":"7","descr":"Galaxy Tab A"},{"type_code":3,"subType_code":8,"descr":"Yoga Tab 3"},{"type_code":3,"subType_code":9,"descr":"iPad"}
+]

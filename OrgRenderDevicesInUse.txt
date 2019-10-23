@@ -1,0 +1,33 @@
+renderOrg(){
+    let merged = [];
+      
+    for(let i=0; i<this.props.Lents.length; i++) {
+      merged.push({
+        ...this.props.Lents[i], 
+        ...(arrSubTypes.find((itmInner) => itmInner.subType_code === this.props.Lents[i].subType))}
+      );
+    }
+      
+    let jsxSubTypes=arrSubTypes.map(x=><option value={x.subType_code}>{x.descr}</option>);
+    let jsxTypes=arrTypes.map(x=><option value={x.code}>{x.short}</option>);
+    
+    var jsxDevicesInUse=merged.map(x=><tr>
+    <td><select value={x.type}>{jsxTypes}</select></td>
+    <td><select value={x.sub_type}>{jsxSubTypes}</select></td>
+    <td>{x.Makat}</td><td>{x.ReceivedDate}</td><td>{ReturnedDate}</td>
+    </tr>);
+    return (
+      <Table striped bordered hover><DevicesInUse/>
+      <tr>
+        <th>סוג</th>
+        <th>יצרן</th>
+        <th>מקט</th>
+        <th>תאריך מסירה</th>
+        <th>תאריך החזרה</th>
+      </tr>
+      {jsxDevicesInUse}
+      </Table>
+
+    );
+  }
+}

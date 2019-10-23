@@ -1,0 +1,9 @@
+https://dashboard.back4app.com/apidocs?javascript#updating-objects
+https://github.com/back4app/node-quickstart-example
+https://www.back4app.com/docs/platform/get-started/add-get-data-with-back4app
+https://dashboard.back4app.com/apidocs/bU4jezaF90TnDsbkfiiDFqAhOGGB8DLlBYC9mVSX#initializing-parse-sdk
+https://parse-dashboard.back4app.com/apps/602a2dc1-bd3d-437f-a9aa-c44ec1507196/browser/delivery
+https://docs.parseplatform.org/js/guide/
+
+
+

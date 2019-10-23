@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/final_react/static/css/main.6f0bcf7b.chunk.css",
+    "main.js": "/final_react/static/js/main.f3170fa1.chunk.js",
+    "main.js.map": "/final_react/static/js/main.f3170fa1.chunk.js.map",
+    "runtime~main.js": "/final_react/static/js/runtime~main.3b431a7e.js",
+    "runtime~main.js.map": "/final_react/static/js/runtime~main.3b431a7e.js.map",
+    "static/css/2.c9f95bff.chunk.css": "/final_react/static/css/2.c9f95bff.chunk.css",
+    "static/js/2.e301a891.chunk.js": "/final_react/static/js/2.e301a891.chunk.js",
+    "static/js/2.e301a891.chunk.js.map": "/final_react/static/js/2.e301a891.chunk.js.map",
+    "index.html": "/final_react/index.html",
+    "precache-manifest.9ae6aa9853356c97262c77ca3a6ba2d6.js": "/final_react/precache-manifest.9ae6aa9853356c97262c77ca3a6ba2d6.js",
+    "service-worker.js": "/final_react/service-worker.js",
+    "static/css/2.c9f95bff.chunk.css.map": "/final_react/static/css/2.c9f95bff.chunk.css.map",
+    "static/css/main.6f0bcf7b.chunk.css.map": "/final_react/static/css/main.6f0bcf7b.chunk.css.map",
+    "static/media/font-awesome.min.css": "/final_react/static/media/fontawesome-webfont.fee66e71.woff",
+    "static/media/wait.gif": "/final_react/static/media/wait.04fcf026.gif"
+  }
+}
