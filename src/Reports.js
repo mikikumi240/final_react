@@ -177,7 +177,7 @@ class Reports extends React.Component{
           {jsxTable}
           </tbody>
         </Table>
-        <Button href="/#" variant="primary">יציאה</Button>
+        <Button href="#/" variant="primary">יציאה</Button>
       </div>
       );
     }

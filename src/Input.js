@@ -123,7 +123,7 @@ class Input extends React.Component  {
       <Table striped bordered hover id="SearchResult">
       {jsxInventory}
       </Table>
-      <Button href="/#" variant="secondary" >יציאה</Button>
+      <Button href="#/" variant="secondary" >יציאה</Button>
       </div>
       );
       }

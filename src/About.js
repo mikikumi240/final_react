@@ -38,7 +38,7 @@ class About extends React.Component {
               <Form.Control plaintext readOnly defaultValue="03-7654321" />
             </Col>
           </Form.Group>
-          <Button variant="primary"  href="/#" >
+          <Button variant="primary"  href="#/" >
             סגור
           </Button>
         </Form>                

@@ -396,7 +396,7 @@ class Delivery extends React.Component  {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Button variant="secondary" href="/#">יציאה </Button>
+                <Button variant="secondary" href="#/">יציאה </Button>
             </div>
         );
     }

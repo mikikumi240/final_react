@@ -364,7 +364,7 @@ var blnShow=(this.state.TTT!=''?true:false);
 
       <Button variant="secondary ml-2" onClick={this.cleanScr}>ניקוי מסך</Button>
       <Button variant="secondary ml-2" onClick={this.okPressed}>אישור</Button>
-      <Button variant="secondary"   href="/#">
+      <Button variant="secondary"   href="#/">
       {/* <i style={{fontSize:"40px",color:"blue"}}
                     className="fad fa-door-open" ></i> */}
                     יציאה

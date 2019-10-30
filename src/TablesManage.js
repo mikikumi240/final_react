@@ -147,7 +147,7 @@ render(){
       
       <GridDevices target="SubTypeCode" Type={this.state.TypeCode} handleSubTypeSelected={this.subTypeSelected} 
         handleSubTypeDeleted={this.subTypeDeleted}/>
-      <Button variant="primary" href="/#">יציאה</Button>
+      <Button variant="primary" href="#/">יציאה</Button>
       
     </div>
     
